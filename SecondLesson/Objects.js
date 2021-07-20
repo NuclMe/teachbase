@@ -79,7 +79,7 @@ o.name = 11
 // };
 // console.log(clock.getCurrentTime())
 
-// геттеры
+// геттеры (получить доступ к свойствам)
 
 // const clock = Object.create({},{
 //     time: {
@@ -90,7 +90,7 @@ o.name = 11
 // })
 // console.log(clock.time)
 
-// сеттер
+// сеттер (измениить свойства)
 const clock = Object.create({},{
     fullTime:{
         set:  function(value){
