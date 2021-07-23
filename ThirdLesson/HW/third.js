@@ -19,42 +19,58 @@
 // 5) метод, который будет возвращать билет по вводу в него id билета, если он помечен кака продан, то из кассы вычитаем сумму 
 
 
-const ticketWindow = function(eventName,eventPrice){
-    this.eventName = eventName;
-    this.eventPrice = eventPrice;
-    let events = [];
+function TicketWindow() {
+    const events = [];
+    const cash = []
     
     // создание уникального id "НИЧЕГО НЕ ВОЗВРАЩАЕТ"
-    this.generateId = (min=0, max=999999) => {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        Math.floor(Math.random() * (max - min)) + min
-       
-    }
-
+    this.generateId = () => (new Date()).getTime();
+    
     // создание ивента 
-    this.createEvent = () => {
+    this.createEvent = (eventName, eventPrice) => {
         // создал переменную в которую засунул цену и название концерта 
-        const eventData =  `${this.eventName}  ${this.eventPrice}`;
-        events.push(eventData)
-        // запушил это все в массив
-
-        // const concertPrice = ;
-        console.log(events)
-        // const res = events.map((el) => el + уникальный id  )
-        
+        const eventId = this.generateId();
+        const eventData = { 
+            eventName,
+            eventPrice,
+            eventId,
+            soldTickets: [],
+        };
+        events.push(eventData);
+        return eventData;        
     }
-    this.buyTicket = () => {
 
+    this.buyTicket = eventName => {
+        if(events.length){
+           for(let i = 0; i < events.length; i++){
+            if(events[i].eventName === eventName ){
+                const ticketId = this.generateId();
+                const ticketPrice = this.eventPrice;
+                console.log(ticketId)
+                events[i].soldTickets.push(ticketId);
+                events[i].cash.push(ticketPrice)
+                return ticketId;
+            }
+           }
+        }
+    }
 
+    this.returnTicket = ticketId => {
+        for(const e of events){
+            for(const tid of e[soldTickets]) {
+                if(ticketId===tid){
+                    return 'already sold'
+                    // cash.
+                }
+            }
+        }
+      
     }
     
 }
 
+const testWindow = new TicketWindow();
+const testEvent = testWindow.createEvent('rave',900);
+const testTicket = testWindow.buyTicket('rave');
 
-const ololo = new ticketWindow('Classical Concert', 150)    
-const rave = new ticketWindow('Rave', 1500)    
-ololo.createEvent()
-ololo.generateId()
-rave.createEvent()
-// console.log(ololo)
+console.log(testTicket,testEvent);
