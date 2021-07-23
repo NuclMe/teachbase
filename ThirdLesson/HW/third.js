@@ -1,53 +1,60 @@
-// Калькулятор
+// Система продажи билетов 
 
-// Создайте калькулятор позволяющий добавлять в него дополнительные методы и сохранять результат, по умолчанию должны присутствовать методы add, substract
+// Реализовать систему продажи билетов, которая позволит продавать билеты и возвращать их   
+// ticketWindow.createEvent('Concert', 500) // создаем концерт и указываем цену билетов
+// ticketWindow.buyTicket('Concert') /* Добавляем сумму за билет в кассу, возвращаем
+// случайный шестизначный ID билета, создать ID можно любым способом */
 
-// Пример: 
-// const calculator = new Calc()
+// ticketWindow.returnTicket('123456') /* Возвращаем билет, если в системе такой id записан
+// как проданный, он должен быть удален из списка проданных и из кассы должна быть
+// вычтена соответствующая его цене сумма */
 
-// calculator.operation('31 + 32') // 63
-// calculator.operation('10 * 2') // 10
-// calculator.addOperation('/', (a, b) => a / b)
-// calculator.operation('10 / 2') // 5
 
-// Также, он должен хранить историю всех операций и выводить ее по запросу:
- 
-// calculator.history() /* [{operation: '+', operands: [31,32]}, {operation: '*', 
-// operands: [10,2]}, {operation: '/', operands: [10,2]}] */
- 
-// И очищать историю
-// calculator.clearHistory()
+// План
+// 0) Генератор случайного шестизначного id  ЕСТЬ
+// 1) метод создания концерта ЕСТЬ 
+// 2) метод создания цены билета на вышеупомянутый концерт (может их как-то обьеденить???) ОБЬЕДЕНИЛ
+// 3) метод покупки билета с добавление его цены в кассу 
+// 4) метод, который после покупки вернет тебе шестизначный id билета и пометить, что этот билет уже продан  
+// 5) метод, который будет возвращать билет по вводу в него id билета, если он помечен кака продан, то из кассы вычитаем сумму 
 
-function Calc() {
-    function add(){
-        a + b
+
+const ticketWindow = function(eventName,eventPrice){
+    this.eventName = eventName;
+    this.eventPrice = eventPrice;
+    let events = [];
+    
+    // создание уникального id "НИЧЕГО НЕ ВОЗВРАЩАЕТ"
+    this.generateId = (min=0, max=999999) => {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        Math.floor(Math.random() * (max - min)) + min
+       
     }
 
-    this.substract = () =>{
-        a - b
-    }
+    // создание ивента 
+    this.createEvent = () => {
+        // создал переменную в которую засунул цену и название концерта 
+        const eventData =  `${this.eventName}  ${this.eventPrice}`;
+        events.push(eventData)
+        // запушил это все в массив
 
-    this.history = []
-    this.allUsedOperatorsWithMethods = [{
-        operator:'+',
-        func: add
-    },
-    {
-        operator:'-',
-        func: substract
+        // const concertPrice = ;
+        console.log(events)
+        // const res = events.map((el) => el + уникальный id  )
+        
     }
-]
-    console.log(this.history)
+    this.buyTicket = () => {
+
+
+    }
+    
 }
-Calc(1,3)
 
 
-
-
-// -1) написать проверку. что если операнд не равняется числу, то бить ошибку 
-// 0) есть в фунцкии методы add, substract по дефолту 
-// 1) Создать функцию, которая принимает метод и аргументы и что-то делает с ними 
-// 2) после вычесления результата он сохраняет в массив обьектов и мы можем получить этот массив в методе history
-// 3) Также по вызову методы clearHistory нам нужно очищать этот массив обьектов 
-// 4) создать универсальную функцию, в которой чтобы ты не вставил в нее, оно делало операцию с двумя числами 
-//  5) со значениями делать parseInt
+const ololo = new ticketWindow('Classical Concert', 150)    
+const rave = new ticketWindow('Rave', 1500)    
+ololo.createEvent()
+ololo.generateId()
+rave.createEvent()
+// console.log(ololo)
