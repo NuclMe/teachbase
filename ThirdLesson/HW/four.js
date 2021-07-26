@@ -52,7 +52,8 @@ function TicketWindow() {
                 const AllCash = events[i].eventCash + ticketPrice;
                 console.log(AllCash)         
                 events[i].soldTickets.push(ticketId);
-                return 999;
+                events[i].eventCash = AllCash;
+                
             }
            }
         }
