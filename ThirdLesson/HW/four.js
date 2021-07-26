@@ -1,117 +1,81 @@
-// Калькулятор
+// Система продажи билетов 
 
-// Создайте калькулятор позволяющий добавлять в него дополнительные методы и сохранять результат, по умолчанию должны присутствовать методы add, substract
+// Реализовать систему продажи билетов, которая позволит продавать билеты и возвращать их   
+// ticketWindow.createEvent('Concert', 500) // создаем концерт и указываем цену билетов
+// ticketWindow.buyTicket('Concert') /* Добавляем сумму за билет в кассу, возвращаем
+// случайный шестизначный ID билета, создать ID можно любым способом */
 
-// Пример: 
-// const calculator = new Calc()
+// ticketWindow.returnTicket('123456') /* Возвращаем билет, если в системе такой id записан
+// как проданный, он должен быть удален из списка проданных и из кассы должна быть
+// вычтена соответствующая его цене сумма */
 
-// calculator.operation('31 + 32') // 63
-// calculator.operation('10 * 2') // 10
-// calculator.addOperation('/', (a, b) => a / b)
-// calculator.operation('10 / 2') // 5
 
-// Также, он должен хранить историю всех операций и выводить ее по запросу:
- 
-// calculator.history() /* [{operation: '+', operands: [31,32]}, {operation: '*', 
-// operands: [10,2]}, {operation: '/', operands: [10,2]}] */
- 
-// И очищать историю
-// calculator.clearHistory()
+// План
+// 0) Генератор случайного шестизначного id  ЕСТЬ
+// 1) метод создания концерта ЕСТЬ 
+// 2) метод создания цены билета на вышеупомянутый концерт (может их как-то обьеденить???) ОБЪЕДИНИЛ
+// 3) метод покупки билета с добавление его цены в кассу  
+// 4) метод, который после покупки вернет тебе шестизначный id билета и пометить, что этот билет уже продан  ЕСТЬ
+// 5) метод, который будет возвращать билет по вводу в него id билета, если он помечен кака продан, то из кассы вычитаем сумму 
 
-function Calc(num1,operand,num2){
-    this.num1 = num1;
-    this.num2 = num2;
-    this.operand = operand;
-    let arr = [];
-    // проверка не работает, не учел операнд 
-    // if( typeof num1 !== 'number' && typeof num2 !== 'number'){
-    //     console.log('you passe NaN' )
-    //     return false;
-    // } else{
-    //     console.log('yeea')
-              
-    // }
-// создал метод добавления
-    this.add = function(thing) {
-        this.num1 += this.num2;
-        // arr.push(thing)
-        return 'Я плюсонул к ' + this.num1 + 'цифру' + this.num2 + ' результат ' + `${thing}`;
+
+function TicketWindow() {
+    const events = [];
+    // const cash = []
+    
+    // метод создания уникального id
+    this.generateId = () => (new Date()).getTime();
+    
+    // метод создания ивента 
+    this.createEvent = (eventName, eventPrice) => {
+        const eventId = this.generateId();
+        const eventData = { 
+            eventName,
+            eventPrice,
+            eventId,
+            soldTickets: [],
+            eventCash: 0,
+        };
+        events.push(eventData);
+        return eventData;        
     }
-    // создал метод вычетания
-    this.substract = function(thing) {
-        this.num1 -= this.num2;
-        // arr.push(thing)
-        return 'Я минусанул от цифры ' + this.num1 + 'цифру' + this.num2 + ' результат ' + `${thing}`;
-    }
-    //создал обьект, где все доступные методы есть   
-    this.allOperations = [{
-            operation: '+',
-            func: add
-        },
-        {
-            operation: '-',
-            func: substract
-        }
-    ]
 
-    // метод создания операции для юзеров, которые ввели дату в виде (+,(a,b))
-    this.addOperation = function (symbol, callback) {
-        this.allOperations.push({
-            operation: symbol,
-            func: callback
-        })
-    }
-    // метод очистки истории
-    this.clearHistory = () => {
-        this.arr = []
-    }
-    // метод получения доступа к истории 
-    this.history = () => {
-        return arr 
-    }
-    this.operation = function (value) {
-        let splited = value.split(" ")
-        let operationToDo = splited.find(value => {
-            if (isNaN(value)) {
-                return value
-                // разбил на числа и операнды и операнд введенный взял
+// метод покупки билета         
+    this.buyTicket = (eventName,eventPrice) => {
+        if(events.length){
+           for(let i = 0; i < events.length; i++){
+            if(events[i].eventName === eventName ){
+                const ticketId = this.generateId();
+                const ticketPrice = eventPrice;
+                /*  записываю цену билета в переменную. ПРИДУМАТЬ как передать эти значения в eventData  в ключ eventCash.
+                 пробовал через return,но ничего не получилось. Наверно надо и дальше в эту сторону "копать". Был бы eventCash массивом, но создавать ради 1го числа массив */ 
+                const AllCash = events[i].eventCash + ticketPrice;
+                console.log(AllCash)         
+                events[i].soldTickets.push(ticketId);
+                return 999;
             }
-        })
-        // сравниваю операнд, который получил при переборе value сверху с чем???? 
-        let operation = this.allOperations.find(operation => {
-            return operation.operation === operationToDo
-        })
-
-        this.arr.push({
-            operationToDo,
-            operands: [+splited[0], +splited[2]]
-            // добавляем первое число и второе, "+"" нужен чтобы привести к числу?
-        })
-
-        return operation.func(+splited[0], +splited[2])
+           }
+        }
     }
-
-
-    return {prop: 'Prop of new object'};
-
+    
+// метод возврата билета
+    this.returnTicket = (ticketId,eventPrice) => {
+        for(const e of events){
+            for(const tid of e['soldTickets']) {
+                if(ticketId===tid){
+                    // пытаюсь удалить первый найденый совпадающий по id елемент. 
+                    events.splice[0,1]                     
+                    let sum = eventCash - eventPrice
+                    return sum;
+                }
+            }
+        }
+    }
 }
 
-let calculator = new Calc()
-// Calculator(1,2)
+const testWindow = new TicketWindow();
+const testEvent = testWindow.createEvent('rave',900);
+const testTicket = testWindow.buyTicket('rave',900);
+const testTicketReturn = testWindow.returnTicket(1627295692359);
 
-console.log(calculator.operation('77 , 3'))
-console.log(calculator.history)
-calculator.addOperation('/', (a, b) => a / b)
-console.log(calculator.operation('20 / 2'))
-console.log(calculator.history)
-calculator.clearHistory()
-console.log(calculator.history)
-
-
-// -1) написать проверку. что если операнд не равняется числу, то бить ошибку 
-// 0) есть в фунцкии методы add, substract по дефолту 
-// 1) Создать функцию, которая принимает метод и аргументы и что-то делает с ними 
-// 2) после вычесления результата он сохраняет в массив обьектов и мы можем получить этот массив в методе history
-// 3) Также по вызову методы clearHistory нам нужно очищать этот массив обьектов 
-// 4) создать универсальную функцию, в которой чтобы ты не вставил в нее, оно делало операцию с двумя числами 
-//  5) со значениями делать parseInt
+console.log(testTicket,testEvent);
