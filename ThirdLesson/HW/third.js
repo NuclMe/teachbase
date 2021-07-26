@@ -40,15 +40,15 @@ function TicketWindow() {
         return eventData;        
     }
 
-    this.buyTicket = eventName => {
+    this.buyTicket = (eventName,eventPrice) => {
         if(events.length){
            for(let i = 0; i < events.length; i++){
             if(events[i].eventName === eventName ){
                 const ticketId = this.generateId();
-                const ticketPrice = this.eventPrice;
-                console.log(ticketId)
-                events[i].soldTickets.push(ticketId);
-                events[i].cash.push(ticketPrice)
+                const ticketPrice = eventPrice;
+                console.log(ticketId,ticketPrice)
+                events[i].soldTickets.push({ticketId:ticketId,ticketPrice: ticketPrice});
+                // events[i].cash.push(ticketPrice)
                 return ticketId;
             }
            }
@@ -71,6 +71,8 @@ function TicketWindow() {
 
 const testWindow = new TicketWindow();
 const testEvent = testWindow.createEvent('rave',900);
-const testTicket = testWindow.buyTicket('rave');
+const testEvent2 = testWindow.createEvent('rap event',445);
+const testTicket = testWindow.buyTicket('rave',800);
+const testTicket2 = testWindow.buyTicket('rap event',445);
 
 console.log(testTicket,testEvent);
