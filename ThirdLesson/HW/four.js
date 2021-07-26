@@ -21,8 +21,7 @@
 
 function TicketWindow() {
     const events = [];
-    // const cash = []
-    
+
     // метод создания уникального id
     this.generateId = () => (new Date()).getTime();
     
@@ -47,13 +46,9 @@ function TicketWindow() {
             if(events[i].eventName === eventName ){
                 const ticketId = this.generateId();
                 const ticketPrice = eventPrice;
-                /*  записываю цену билета в переменную. ПРИДУМАТЬ как передать эти значения в eventData  в ключ eventCash.
-                 пробовал через return,но ничего не получилось. Наверно надо и дальше в эту сторону "копать". Был бы eventCash массивом, но создавать ради 1го числа массив */ 
-                const AllCash = events[i].eventCash + ticketPrice;
-                console.log(AllCash)         
+                const AllCash = events[i].eventCash + ticketPrice;         
                 events[i].soldTickets.push(ticketId);
                 events[i].eventCash = AllCash;
-                
             }
            }
         }
