@@ -3,7 +3,7 @@
 let GeometryData = function(){
     this.perCalc = function(){
         for(i=0; i<this.length; i++){
-            this[i] + this[i]
+            (this[i] + this[i]) * 2
         }
     }   
     this.ploCalc = function(){
@@ -12,10 +12,12 @@ let GeometryData = function(){
 }
 let Rectangle = function(){
     let b = 'white'
+    console.log(b)
 }
 
 let Square =  function (){
     let a = 'black'
+    console.log(a)
 }
 
 Rectangle.prototype = new GeometryData();
