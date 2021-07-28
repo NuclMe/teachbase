@@ -1,30 +1,37 @@
 // С помощью прототипа реализовать структуру "Квадрат" которая будет расширять структуру "Прямоугольник", должна быть возможность задавать размеры обеим фигурам и получать их площадь и периметр   
+// План
+// 1) Сделать 1 прототип внутри которого будет 2 метода - вычесления периметра и площади 
+// 2) Создать 2 функции треугольник и квадрат 
+// 3) Сделать прототип 1го метода для 2х фигур
 
-let GeometryData = function(){
-    this.perCalc = function(){
-        for(i=0; i<this.length; i++){
-            (this[i] + this[i]) * 2
-        }
-    }   
-    this.ploCalc = function(){
-        Math.pow(this, 2)
+
+let GeometryData = {
+    ploshadCalc(){
+     return this.a * this.b
+    }, 
+
+    perimetrCalc(){
+       return (this.a + this.b) * 2
     }
 }
-let Rectangle = function(){
-    let b = 'white'
-    console.log(b)
+function Rectangle(a,b){
+    this.b = b
+    this.a = a
 }
 
-let Square =  function (){
-    let a = 'black'
-    console.log(a)
+function Square(a){
+    this.b = a
+    this.a = a
 }
 
-Rectangle.prototype = new GeometryData();
-Square.prototype = new GeometryData();  
+Rectangle.prototype = GeometryData;
+Square.prototype = GeometryData;  
+
+const Rectangle1 = new Rectangle(3,4)
+const Square1 = new Square(4)
+console.log(Rectangle1.perimetrCalc())
+console.log(Rectangle1.ploshadCalc())
 
 
-const gmail = new Rectangle()
-const recper = Rectangle.perCalc(2,2,3,4)
-console.log(recper)
+
  
