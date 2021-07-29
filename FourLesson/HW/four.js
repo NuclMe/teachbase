@@ -10,7 +10,7 @@
 
 // Что можно делать в верфи:
 // Строить корабли - Должен проверяться тип корабля, работать только с кораблями своего типа
-// Ремонтировать корабли - Должен проверяться тип корабля, работать только с кораблями своего типа
+// Ремонтировать корабли - boatParamsДолжен проверяться тип корабля, работать только с кораблями своего типа
 // Перекрашивать корабли - Можно красить любые корабли
 // Обменивать старый корабль на новый - Можно обменивать только корабли того же типа
 
@@ -71,9 +71,9 @@ const shipyardProto = {
         return this._checkBoatInstance(boatClass)?
         new boatClass(boatParams) : {error: 'Invalid instance'};
     },
-    build:function(boat){
-        return this._checkBoatInstance(boat)?
-        new boat.constructor() : {error: 'Invalid instance'};
+    build:function(boatClass,boatParams){
+        return this._checkBoatInstance(boatClass)?
+        new boatClass(boatParams) : {error: 'Invalid instance'};
     },
     
     repair:function(boat){
@@ -107,12 +107,12 @@ SailBoat.prototype = shipyardProto;
 const VarMotorBoat = new MotorBoat()
 const VarSailBoat = new SailBoat()
 
-const motorboat = VarMotorBoat.buld(MotorBoat,{
+const motorboat = VarMotorBoat.build(MotorBoat,{
     power:45,
     material:'steel'
 })
-console.log(motorboat)
+// console.log(motorboat)
 
-const ConsoleVarMotorBoat = MotorBoat.repair(MotorBoat)
-// const ConsoleVarSailBoat = motorboat.build(SailBoat)
-console.log(ConsoleVarMotorBoat)
+const ConsoleVarMotorBoat = motorboat.build(MotorBoat)
+const ConsoleVarMotorBoatRapair = motorboat.repair(MotorBoat)
+console.log(ConsoleVarMotorBoatRapair)
