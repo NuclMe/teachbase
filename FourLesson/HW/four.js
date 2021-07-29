@@ -85,34 +85,47 @@ const shipyardProto = {
             console.log( 'Invalid instance');
         }
     },
-
 }
 
-function MotorBoat(capacity,material){
+function MotorShip(){
     this.boatClass = MotorBoat;
+}
+function SailShip(){
+    this.boatClass = SailBoat;
+}
+function MotorBoat(capacity,material){
     this.capacity = capacity;
     this.material = material;
 }
 
 function SailBoat(mast,sails){
-    this.boatClass = SailBoat;
     this.mast = mast;
     this.sails = sails;
 }
 
+MotorShip.prototype = shipyardProto;
+SailShip.prototype = shipyardProto;
 
-MotorBoat.prototype = shipyardProto;
-SailBoat.prototype = shipyardProto;
-
-const VarMotorBoat = new MotorBoat()
-const VarSailBoat = new SailBoat()
+const VarMotorBoat = new MotorShip()
+const VarSailBoat = new SailShip()
 
 const motorboat = VarMotorBoat.build(MotorBoat,{
     power:45,
     material:'steel'
 })
-// console.log(motorboat)
+const sailboat = VarSailBoat.build(SailBoat,{
+    mast:5,
+    sails:3,
+})
+console.log(motorboat)
+console.log(sailboat)
 
-const ConsoleVarMotorBoat = motorboat.build(MotorBoat)
-const ConsoleVarMotorBoatRapair = motorboat.repair(MotorBoat)
-console.log(ConsoleVarMotorBoatRapair)
+const paintMoto = VarMotorBoat.paint(motorboat,'red')
+
+console.log(paintMoto)
+
+const changeShip = VarSailBoat.swapShip(SailBoat)
+console.log(changeShip)
+
+const repairShip = VarMotorBoat.repair(motorboat)
+console.log(repairShip)
