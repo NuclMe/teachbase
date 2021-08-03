@@ -35,3 +35,34 @@
 // Позволяет сделать ход, при этом убив фигуру которая стоит на финальной клетке (если это вражеская фигура )
 // Превратить пешку, которая дошла до последнего поля в фигуру по выбору, потратив ход
 
+// план
+// 1) Класс фигура с методами и свойствами 
+// 2  дочерние классы со своими методами и свойствами  
+// 3) класс самой игры
+// 4) класс игроков(белый и черный)
+// 5) класс поля
+class chessboard{
+    constructor(position){
+        const horisontal = 64;
+        this.position = position
+    }
+}
+
+class figure{
+    constructor(type,color,moveshist){
+        this.type = type;
+        this.color = color;
+        this.moveshist = moveshist;
+    }
+    move(){
+        console.log(this.name + 'i moved')
+    }
+
+    getMovesHist(){
+        console.log(this.moveshist + 'history of moves');
+    }
+    
+
+}
+
+
