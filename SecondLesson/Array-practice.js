@@ -55,7 +55,7 @@ const empoloyees = [
      // reduce
 // в reduce 2 параметром обязательно нужно передавать аккумулятор, его первое значение  
     //  const reduceCallback = function(acc,item){
-    //     return acc + Number(item.salary)
+    //     return acc + Number(item.salary) 
     // };
 
     // const overlaySalary = empoloyees.reduce(reduceCallback,0) 

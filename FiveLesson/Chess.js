@@ -40,29 +40,117 @@
 // 2  дочерние классы со своими методами и свойствами  
 // 3) класс самой игры
 // 4) класс игроков(белый и черный)
-// 5) класс поля
-class chessboard{
+// 5) класс поля 
+const FigureTypes = [
+    {name:'queen'},
+    {name:'bishop'},
+    {name:'knight'},
+    {name:'rook'},
+    {name:'pawn'},
+    {name:'king'}
+]
+class Chessboard{
     constructor(position){
-        const horisontal = 64;
-        this.position = position
+        this.position = position;
+        const cells = [];
+        for(let i=0; i<64; i++){
+            cells.push({
+                color: i%2?'black':'white',
+                // остаток от дележа итой на 2, если остаток есть то она черная, если нет, то белая
+                x:i%8,
+                // остаток от дележа на 8ку 
+                y:~~(i/8)
+                // деление на 8мь и отсечение дроби у них 
+                // оператор ~~ отсекает дробь у чисел, он такой же как и Math.floor()
+            })
+            
+        }
+        console.log(cells)
+        
+      
+    }
+}
+// const newche = new Chessboard();
+
+
+// Игра
+
+// Состояние игры: победа белого, победа черного, игра продолжается
+
+// Хранит информацию о:
+// Список фигур, которые были убиты
+// Чей сейчас ход
+// Сколько ходов прошло с начала игры
+// Всю историю ходов.
+
+// Работает следующая функциональность :
+// Позволяет выбрать фигуру только в том случае, если цвет фигуры соответствует цвету игрока, который ходит
+// Если фигура выбрана, позволяет получить допустимые ходы (обратите внимание, недостаточно просто получить ходы с помощью метода фигуры, нужно также валидировать не выходит ли ход за пределы доски, не совершается ли ход на свою фигуру или сквозь несколько вражеских)
+// Позволяет отменить выбор фигуры
+// Позволяет сделать ход, при этом убив фигуру которая стоит на финальной клетке (если это вражеская фигура )
+// Превратить пешку, которая дошла до последнего поля в фигуру по выбору, потратив ход
+class Game{
+    constructor(color){
+        this.color = color;
+    }
+    blackWin(){
+            if(this.color === 'black'){
+                console.log('Black Win')
+            }
+    }
+    whiteWin(){
+            if(this.color === 'white'){
+                console.log('White Win')
+            }
     }
 }
 
-class figure{
-    constructor(type,color,moveshist){
+const game = new Game('black')
+const ololo = game.blackWin()
+console.log(ololo)
+
+class Figure{
+    constructor(type,color,status){
         this.type = type;
         this.color = color;
-        this.moveshist = moveshist;
+        this.status = status;
+        this.position = position;
     }
     move(){
-        console.log(this.name + 'i moved')
+
+        // return this.type + 'i moved'
+        console.log(this.type + ' is moved')
     }
 
-    getMovesHist(){
-        console.log(this.moveshist + 'history of moves');
-    }
-    
-
+  
 }
 
+class Pawn extends Figure{
+    
+    constructor(type){
+        super()
+        this.type=type;
+      
+        // const adult = FigureTypes.filter(item =>{
+        //     if(item.name === 'king'){
+        //         return true
+        //     }
+        // })
+        // console.log(adult)
+        // const reduceCallback = function(acc,item){
+        //     return acc !== item.king
+        // }
+        this.cantBecome = function(){
+            // console.log(FigureTypes.filter, 'FigureTypes');
+            for(let i = 0; i<FigureTypes.length; i++){
+                if(FigureTypes[i].name === 'king' && this.type === 'king'){
+                   console.log('Пешка не может быть королём')
+                }
+            }
+        }
+    }
+}
 
+const pawn2 = new Pawn('pawn','black','alive')
+const movepawn = pawn2.cantBecome()
+console.log(movepawn)
