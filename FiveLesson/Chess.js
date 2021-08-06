@@ -27,34 +27,33 @@ class Chessboard {
 constructor() {
     this.squares = initialiseChessBoard()
     // this.position = position;
-    const cells = [];
-    for (let i = 0; i < 64; i++) {
-        cells.push({
-            // color: i%2?'black':'white',
-            // остаток от дележа итой на 2, если остаток есть то она черная, если нет, то белая
-            x: i % 8,
-            // остаток от дележа на 8ку 
-            y: ~~(i / 8)
-            // деление на 8мь и отсечение дроби у них 
-            // оператор ~~ отсекает дробь у чисел, он такой же как и Math.floor()
-        })
+    // const squares  = [];
+    // for (let i = 0; i < 64; i++) {
+    //     squares.push({
+    //         // color: i%2?'black':'white',
+    //         // остаток от дележа итой на 2, если остаток есть то она черная, если нет, то белая
+    //         x: i % 8,
+    //         // остаток от дележа на 8ку 
+    //         y: ~~(i / 8)
+    //         // деление на 8мь и отсечение дроби у них 
+    //         // оператор ~~ отсекает дробь у чисел, он такой же как и Math.floor()
+    //     })
 
-    }
+    // }
 }
 getBoardState() {
     console.log(this.squares)
 }
 
-makeMove(start, end) {
-    this.checkMove(start)
-    this.checkMove(end)
-    this.getBoardState()
-}
+    makeMove(start, end) {
+        this.checkMove(start)
+        this.checkMove(end)
+        this.getBoardState()
+    }
 }
 
 function initialiseChessBoard() {
 const squares = Array(64).fill(null)
-console.log(squares)
 for (i = 8; i < 16; i++) {
     squares[i] = new Pawn(2)
     // создаю черные пешки 
@@ -105,7 +104,9 @@ constructor() {
 //  4. Сколько ходов прошло с начала игры 
 //  5. Вся история ходов 
 checkMove(i) {
+    // вырезаем весь масив 
     const squares = this.squares.slice()
+    console.log(squares)
     if (this.state.sourceSelection === -1) {
         if (!squares[i] || squares[i].player !== this.state.player) {
             console.log("Wrong selection. Choose player " + this.state.player + " pieces.")
@@ -399,3 +400,12 @@ getSrcToDestPath(src, dest) {
 const pawn2 = new Pawn('pawn', 'black', 'alive')
 const movepawn = pawn2.cantBecome()
 console.log(movepawn)
+const newGame = new Game()
+newGame.makeMove(52, 36)
+newGame.makeMove(12, 28)
+newGame.makeMove(61, 34)
+newGame.makeMove(8, 16)
+newGame.makeMove(59, 45)
+newGame.makeMove(16, 24)
+newGame.makeMove(45, 13)
+newGame.makeMove(24, 32)
